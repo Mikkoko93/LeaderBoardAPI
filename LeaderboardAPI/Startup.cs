@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using LeaderboardAPI.Utils;
+using LeaderboardAPI.Repositories;
 
 namespace LeaderboardAPI
 {
@@ -29,9 +30,12 @@ namespace LeaderboardAPI
         {
             services.AddDbContext<LeaderAPIDbContext>(options => options.UseNpgsql(DbConnectionInfo.GetConnectionString()));
             services.AddControllers();
-
             // Modify Utils/DbConnectionInfo.cs to match your DB connection info
             // Add DB context with DbConnectionInfo.GetConnectionString()
+
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<IScoreRepository, ScoreRepository>();
+            services.AddScoped<ILevelRepository, LevelRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
